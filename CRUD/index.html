@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>CRUD Películas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- ======================= BOOTSTRAP ======================= -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<nav class="navbar navbar-dark bg-dark sticky-top">
+    <div class="container-fluid">
+        <span class="navbar-brand">
+            <i class="bi bi-film"></i> CRUD Películas
+        </span>
+        <div class="d-flex gap-2">
+            <button id="btnAgregar" class="btn btn-success d-none" data-bs-toggle="modal" data-bs-target="#modalPelicula">
+                <i class="bi bi-plus-circle"></i> Agregar
+            </button>
+            <button id="btnLogout" class="btn btn-danger d-none">
+                <i class="bi bi-box-arrow-right"></i>
+            </button>
+            <button id="btnLogin" class="btn btn-primary">
+                <i class="bi bi-box-arrow-in-right"></i>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- ======================= LOGIN ======================= -->
+<section id="loginSection" class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5 class="text-center mb-3">Iniciar Sesión</h5>
+
+                    <form id="formLogin">
+                        <div class="mb-3">
+                            <input id="inputUser" class="form-control" placeholder="Usuario" required>
+                        </div>
+                        <div class="mb-3">
+                            <input id="inputPassword" type="password" class="form-control" placeholder="Contraseña" required>
+                        </div>
+
+                        <button class="btn btn-primary w-100 mb-2">Ingresar</button>
+
+                        <small class="text-muted d-block text-center">
+                            Usuarios de prueba:<br>
+                            <strong>admin / 1234</strong><br>
+                            <strong>usuario / 1234</strong><br>
+                            <strong>demo / 1234</strong>
+                        </small>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =======================  CONTENIDO PRINCIPAL ======================= -->
+<div id="mainContent" class="d-none">
+
+    <!-- ======================= BUSCADOR Y FILTRO ======================= -->
+    <div class="container my-4">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <input id="inputBuscar" class="form-control" placeholder="Buscar película">
+            </div>
+            <div class="col-md-6">
+                <select id="selectGenero" class="form-select">
+                    <option value="">Todos los géneros</option>
+                    <option>Acción</option>
+                    <option>Drama</option>
+                    <option>Comedia</option>
+                    <option>Ciencia Ficción</option>
+                    <option>Terror</option>
+                    <option>Aventura</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- =======================  SLIDER ======================= -->
+    <div class="container mb-4">
+        <h5>Películas Recientes</h5>
+        <div class="d-flex align-items-center gap-2">
+            <button class="btn btn-outline-secondary" onclick="scrollSlider(-1)">
+                <i class="bi bi-chevron-left"></i>
+            </button>
+
+            <div id="carouselMovies" class="d-flex gap-3 overflow-auto"></div>
+
+            <button class="btn btn-outline-secondary" onclick="scrollSlider(1)">
+                <i class="bi bi-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- ======================= GRID ======================= -->
+    <div class="container">
+        <h5>Todas las Películas</h5>
+        <div id="gridPeliculas" class="row g-4"></div>
+
+        <div id="sinResultados" class="alert alert-info text-center d-none mt-3">
+            No se encontraron películas
+        </div>
+    </div>
+</div>
+
+<!-- =======================  MODAL ======================= -->
+<div class="modal fade" id="modalPelicula">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="modalTitulo" class="modal-title">Agregar Película</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <form id="formPelicula">
+                    <input id="inputTitulo" class="form-control mb-2" placeholder="Título" required>
+                    <select id="inputGenero" class="form-select mb-2" required>
+                        <option value="">Género</option>
+                        <option>Acción</option>
+                        <option>Drama</option>
+                        <option>Comedia</option>
+                        <option>Ciencia Ficción</option>
+                        <option>Terror</option>
+                        <option>Aventura</option>
+                    </select>
+                    <input id="inputDirector" class="form-control mb-2" placeholder="Director" required>
+                    <input id="inputAno" type="number" class="form-control mb-2" placeholder="Año" required>
+                    <input id="inputCalificacion" type="number" class="form-control mb-2" placeholder="Calificación" required>
+                    <textarea id="inputDescripcion" class="form-control mb-2" placeholder="Descripción" required></textarea>
+                    <input id="inputImagen" class="form-control" placeholder="URL Imagen" required>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button id="btnGuardarPelicula" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="localStorage.js"></script>
+</body>
+</html>
