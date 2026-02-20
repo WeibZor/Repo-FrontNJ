@@ -39,8 +39,18 @@ function ObtenerPeliculas(pelis) {
 }
 
 // mostrar datos
-ObtenerPeliculas(peliculas)
-.then((d) => console.log(d))
-.catch((e) => console.log(e))
+//ObtenerPeliculas(peliculas)
+//.then((d) => console.log(d))
+//.catch((e) => console.log(e))
 
+// Forma 2 - Async/Await
+
+function getMovies(){
+    try{
+        let movies = await ObtenerPeliculas(peliculas);
+        console.log(movies);    
+    } catch(error){
+        console.log(error);
+    }
+}
 
