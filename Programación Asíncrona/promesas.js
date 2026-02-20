@@ -19,7 +19,7 @@ let peliculas = [
     "genero": "Acción, Drama",
     "imagen": "",
     }
-]
+];
 
 function ObtenerPeliculas(pelis) {
     // Simular retraso de 2 seg.
