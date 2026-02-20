@@ -45,7 +45,7 @@ function ObtenerPeliculas(pelis) {
 
 // Forma 2 - Async/Await
 
-function getMovies(){
+async function getMovies(){
     try{
         let movies = await ObtenerPeliculas(peliculas);
         console.log(movies);    
