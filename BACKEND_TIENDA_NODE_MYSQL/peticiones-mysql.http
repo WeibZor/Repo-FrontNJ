@@ -1,0 +1,230 @@
+### ==================== API INVENTARIO TIENDA MYSQL - DOCUMENTACIÓN ====================
+### Base URL: http://localhost:3000/api
+### Autor: Jossy Tello (Adaptado para MySQL)
+### Institucion: CESDE
+### Versión: 2.0 MySQL
+### Tecnologías: Node.js + Express + MySQL
+
+### ==================== AUTENTICACIÓN ====================
+
+### Login de Admin
+POST http://localhost:3000/api/login
+Content-Type: application/json
+
+{
+    "usuario": "admin",
+    "contrasena": "admin12345"
+}
+
+### Login Vendedor
+POST http://localhost:3000/api/login
+Content-Type: application/json
+
+{
+    "usuario": "vendedor",
+    "contrasena": "vendedor123"
+}
+
+### ==================== CRUD PRODUCTOS ====================
+
+### Obtener todos los productos
+GET http://localhost:3000/api/productos
+
+### Obtener producto por ID
+GET http://localhost:3000/api/productos/1
+
+### Crear nuevo producto
+POST http://localhost:3000/api/productos
+Content-Type: application/json
+
+{
+    "nombre": "Arepa con Queso",
+    "descripcion": "Arepa tradicional con queso costeño",
+    "precio": 8000,
+    "stock": 50,
+    "imagen": "https://example.com/arepa.jpg"
+}
+
+### Actualizar producto existente
+PUT http://localhost:3000/api/productos/1
+Content-Type: application/json
+
+{
+    "nombre": "Perro Caliente Especial",
+    "descripcion": "Perro con ripio, huevo y salsas especiales",
+    "precio": 25000,
+    "stock": 15,
+    "imagen": "https://th.bing.com/th/id/OIP.2QjcuwsTimAImo8WSQdTdAHaFp?rs=1&pid=ImgDetMain"
+}
+
+### Eliminar producto
+DELETE http://localhost:3000/api/productos/4
+
+### ==================== CRUD CLIENTES ====================
+
+### Obtener todos los clientes
+GET http://localhost:3000/api/clientes
+
+### Obtener cliente por ID
+GET http://localhost:3000/api/clientes/1
+
+### Crear nuevo cliente
+POST http://localhost:3000/api/clientes
+Content-Type: application/json
+
+{
+    "nombre": "María",
+    "apellido": "González",
+    "email": "maria.gonzalez@gmail.com",
+    "celular": "3001234567",
+    "direccion": "Calle 123 #45-67",
+    "direccion2": "Apartamento 301",
+    "descripcion": "Cliente frecuente, prefiere entregas en la mañana"
+}
+
+### Actualizar cliente existente
+PUT http://localhost:3000/api/clientes/1
+Content-Type: application/json
+
+{
+    "nombre": "Alan",
+    "apellido": "Brito Delgado",
+    "email": "alan.brito@gmail.com",
+    "celular": "3233999999",
+    "direccion": "Calle ciega 123",
+    "direccion2": "Edificio Castilla - Apto 502",
+    "descripcion": "Dejar el pedido en la portería con el vigilante"
+}
+
+### Eliminar cliente
+DELETE http://localhost:3000/api/clientes/3
+
+### ==================== CRUD PEDIDOS ====================
+
+### Obtener todos los pedidos
+GET http://localhost:3000/api/pedidos
+
+### Obtener pedido por ID (incluye detalles)
+GET http://localhost:3000/api/pedidos/1
+
+### Crear nuevo pedido con productos
+POST http://localhost:3000/api/pedidos
+Content-Type: application/json
+
+{
+    "id_cliente": 1,
+    "descuento": 5000,
+    "metodo_pago": "PSE",
+    "aumento": 0,
+    "productos": [
+        {
+            "id_producto": 2,
+            "precio": 30000,
+            "cantidad": 2
+        },
+        {
+            "id_producto": 1,
+            "precio": 22000,
+            "cantidad": 1
+        }
+    ]
+}
+
+### Actualizar pedido existente
+PUT http://localhost:3000/api/pedidos/1
+Content-Type: application/json
+
+{
+    "id_cliente": 1,
+    "descuento": 10000,
+    "metodo_pago": "Transferencia",
+    "aumento": 2000
+}
+
+### Eliminar pedido (incluye detalles)
+DELETE http://localhost:3000/api/pedidos/2
+
+### ==================== CRUD USUARIOS/ROLES ====================
+
+### Obtener todos los usuarios
+GET http://localhost:3000/api/usuarios
+
+### Obtener usuario por ID
+GET http://localhost:3000/api/usuarios/1
+
+### Crear nuevo usuario
+POST http://localhost:3000/api/usuarios
+Content-Type: application/json
+
+{
+    "rol": "cajero",
+    "usuario": "carlos_cajero",
+    "contrasena": "carlos123456"
+}
+
+### Actualizar usuario existente (sin cambiar contraseña)
+PUT http://localhost:3000/api/usuarios/2
+Content-Type: application/json
+
+{
+    "rol": "administrador",
+    "usuario": "vendedor_admin"
+}
+
+### Actualizar usuario existente (con nueva contraseña)
+PUT http://localhost:3000/api/usuarios/2
+Content-Type: application/json
+
+{
+    "rol": "vendedor",
+    "usuario": "vendedor_actualizado",
+    "contrasena": "nueva_contrasena123"
+}
+
+### Eliminar usuario
+DELETE http://localhost:3000/api/usuarios/3
+
+### ==================== CRUD DETALLE PEDIDO ====================
+
+### Obtener detalles de un pedido específico
+GET http://localhost:3000/api/detalle-pedido?id_pedido=1
+
+### Agregar producto a un pedido existente
+POST http://localhost:3000/api/detalle-pedido
+Content-Type: application/json
+
+{
+    "id_pedido": 1,
+    "id_producto": 3,
+    "precio": 45000,
+    "cantidad": 1
+}
+
+### Actualizar detalle de pedido
+PUT http://localhost:3000/api/detalle-pedido/1
+Content-Type: application/json
+
+{
+    "precio": 32000,
+    "cantidad": 3
+}
+
+### Eliminar detalle de pedido
+DELETE http://localhost:3000/api/detalle-pedido/2
+
+
+
+### ==================== COMANDOS ÚTILES ====================
+# Instalar dependencias: npm install
+# Inicializar base de datos: npm run init-db
+# Desarrollo: npm run dev
+
+### ==================== NOTAS IMPORTANTES ====================
+# 1. Asegúrate de tener MySQL instalado y ejecutándose
+# 2. Configura las credenciales en el archivo .env
+# 3. La base de datos se crea automáticamente
+# 4. Foreign keys están habilitadas
+# 5. Transacciones automáticas para operaciones complejas
+# 6. Índices creados para mejor rendimiento
+# 7. Datos de ejemplo se insertan automáticamente
+# 8. Pool de conexiones para mejor manejo de recursos
