@@ -2,49 +2,24 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>App del Clima</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #e0f2fe;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-
-    .weather-app {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      text-align: center;
-      width: 300px;
-    }
-
-    input {
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 10px;
-    }
-
-    button {
-      width: 100%;
-      padding: 8px;
-      cursor: pointer;
-    }
-
-    .result {
-      margin-top: 15px;
-    }
-  </style>
+  <title>Clima</title>
+  <link rel="stylesheet" href="punto3.css">
 </head>
 <body>
 
-  <div class="weather-app">
-    <h2>🌤️ Clima</h2>
-    <input type="text" id="cityInput" placeholder="Ingresa una ciudad">
-    <button id="searchBtn">Buscar</button>
-    <div class="result" id="result"></div>
+  <div class="container">
+    <h1>Consulta el Clima</h1>
+
+    <input 
+      type="text" 
+      id="ciudad" 
+      placeholder="Ej: Medellín"
+      onkeypress="if(event.key === 'Enter') buscarClima()"
+    >
+
+    <button onclick="buscarClima()">Buscar</button>
+
+    <div id="resultado"></div>
   </div>
 
   <script src="punto2.js"></script>

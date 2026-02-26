@@ -1,39 +1,22 @@
-const apiKey = 'db0d19b2bd3f9ac815853235419579af';
+    async function buscarClima() {
+      const ciudad = document.getElementById('ciudad').value;
+      const apiKey = 'ee9fa7850cb1aecd68c8a7652989ccc1';
+      const url = `https://api.openweathermap.org/data/2.5/weather?q=${ciudad}&appid=${apiKey}&units=metric&lang=es`;
 
-const button = document.getElementById('searchBtn');
-const result = document.getElementById('result');
-
-button.addEventListener('click', getWeather);
-
-async function getWeather() {
-  const city = document.getElementById('cityInput').value.trim();
-
-  if (city === '') {
-    result.innerHTML = '<p>Escribe una ciudad</p>';
-    return;
-  }
-
-  try {
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&lang=es&appid=${apiKey}`;
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      result.innerHTML = '<p>Ciudad no encontrada</p>';
-      return;
+      try {
+        document.getElementById('resultado').innerText = 'Consultando clima...';
+        const res = await fetch(url);
+        const data = await res.json();
+        if (data.cod !== 200) {
+          document.getElementById('resultado').innerText = 'Ciudad no encontrada';
+          return;
+        }
+        document.getElementById('resultado').innerHTML = `
+          <h2>${data.name}</h2>
+          <p>Temperatura: ${data.main.temp} °C</p>
+          <p>Clima: ${data.weather[0].description}</p>
+        `;
+      } catch (error) {
+        document.getElementById('resultado').innerText = 'Error al consultar el clima';
+      }
     }
-
-    const data = await response.json();
-    showWeather(data);
-
-  } catch (error) {
-    result.innerHTML = '<p>Error al obtener el clima</p>';
-  }
-}
-
-function showWeather(data) {
-  result.innerHTML = `
-    <h3>${data.name}</h3>
-    <p>🌡️ ${Math.round(data.main.temp)} °C</p>
-    <p>☁️ ${data.weather[0].description}</p>
-  `;
-}
