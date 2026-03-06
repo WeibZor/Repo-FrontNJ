@@ -230,5 +230,207 @@
 
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
    <script src="js/checkout.js"></script>
+   
+   <script>
+   // Función para crear el pedido
+   async function crearPedido(idCliente, carrito, metodoPago, notas) {
+       try {
+           // Preparar pedido
+           let total = 0;
+           const productosPedido = carrito.map(item => {
+               total += item.precio * item.cantidad;
+               return {
+                   id_producto: parseInt(item.id), 
+                   precio: parseFloat(item.precio),
+                   cantidad: parseInt(item.cantidad)
+               };
+           });
+
+           const pedidoData = {
+               id_cliente: parseInt(idCliente),
+               metodo_pago: metodoPago,
+               estado: "pendiente",
+               total: parseFloat(total.toFixed(2)),
+               notas: notas || "",
+               productos: productosPedido
+           };
+
+           console.log('=== Enviando PEDIDO ===');
+           console.log('Datos del pedido:', JSON.stringify(pedidoData, null, 2));
+
+           // Enviar pedido al backend
+           const pedidoRes = await fetch('http://localhost:3000/api/pedidos', {
+               method: 'POST',
+               headers: {'Content-Type':'application/json'},
+               body: JSON.stringify(pedidoData)
+           });
+
+           console.log('Respuesta pedido status:', pedidoRes.status);
+
+           if(!pedidoRes.ok){
+               const errorData = await pedidoRes.json();
+               console.error('Error en pedido:', errorData);
+               throw new Error(errorData.message || 'Error al crear el pedido: ' + pedidoRes.status);
+           }
+
+           const pedidoResponse = await pedidoRes.json();
+           console.log('✅ Pedido creado exitosamente:', pedidoResponse);
+           
+           return pedidoResponse;
+       } catch (error) {
+           console.error('❌ Error en crearPedido:', error);
+           throw error;
+       }
+   }
+
+   document.addEventListener('DOMContentLoaded', function() {
+       const formCheckout = document.getElementById('form-checkout');
+       
+       if (!formCheckout) {
+           console.error('❌ Formulario de checkout no encontrado!');
+           return;
+       }
+
+       formCheckout.addEventListener('submit', async (e) => {
+           e.preventDefault();
+           console.log('=== INICIANDO CHECKOUT ===');
+
+           const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+           
+           if(carrito.length === 0){
+               alert('El carrito está vacío');
+               return;
+           }
+
+           console.log('Carrito:', carrito);
+
+           // Recoger datos del formulario
+           const nombres = document.getElementById('nombres-checkout').value.trim();
+           const apellidos = document.getElementById('apellidos-checkout').value.trim();
+           const email = document.getElementById('email-checkout').value.trim();
+           const celular = document.getElementById('celular-checkout').value.trim();
+           const direccion = document.getElementById('direccion-checkout').value.trim();
+           const direccion2 = document.getElementById('direccion2-checkout').value.trim();
+           const notas = document.getElementById('notas-checkout').value.trim();
+           const metodoPagoElement = document.querySelector('input[name="metodo-pago"]:checked');
+           
+           if (!metodoPagoElement) {
+               alert('Por favor selecciona un método de pago');
+               return;
+           }
+           
+           const metodoPago = metodoPagoElement.value;
+
+           // Validación simple
+           if(!nombres || !apellidos || !email || !celular || !direccion){
+               alert('Por favor completa todos los campos requeridos');
+               return;
+           }
+
+           try {
+               console.log('Datos del cliente:', {nombres, apellidos, email, celular, direccion});
+               
+               let idCliente = null;
+               let nuevoCliente = false;
+
+               // Crear cliente
+               const clienteData = {
+                   nombre: nombres,
+                   apellido: apellidos,
+                   email: email,
+                   celular: celular,
+                   direccion: direccion + (direccion2 ? ' - ' + direccion2 : ''),
+                   descripcion: notas || ''
+               };
+
+               console.log('=== CREANDO/BUSCANDO CLIENTE ===');
+               console.log('Datos cliente:', JSON.stringify(clienteData, null, 2));
+
+               const clienteRes = await fetch('http://localhost:3000/api/clientes', {
+                   method: 'POST',
+                   headers: {'Content-Type':'application/json'},
+                   body: JSON.stringify(clienteData)
+               });
+
+               console.log('Respuesta cliente status:', clienteRes.status);
+
+               if(!clienteRes.ok){
+                   const errorData = await clienteRes.json();
+                   const statusCode = clienteRes.status;
+                   
+                   console.error('Error respuesta cliente (Status ' + statusCode + '):', errorData);
+                   
+                   // Si el email ya existe (409), usar el cliente existente
+                   if(statusCode === 409){
+                       console.log('📝 Email ya registrado. Buscando cliente existente...');
+                       
+                       // Obtener todos los clientes
+                       const clientesRes = await fetch('http://localhost:3000/api/clientes');
+                       if(clientesRes.ok){
+                           const clientes = await clientesRes.json();
+                           const clienteExistente = clientes.find(c => c.email.toLowerCase() === email.toLowerCase());
+                           
+                           if(clienteExistente){
+                               idCliente = clienteExistente.id_cliente;
+                               console.log('✅ Cliente existente encontrado:', idCliente);
+                               alert('Este email ya está registrado. Crearemos el pedido con tu información existente.');
+                           } else {
+                               throw new Error('Email duplicado pero no se encontró el cliente. Contacta con soporte.');
+                           }
+                       } else {
+                           throw new Error('Error al buscar cliente existente.');
+                       }
+                   } else {
+                       throw new Error(errorData.message || 'Error al registrar cliente: ' + statusCode);
+                   }
+               } else {
+                   const cliente = await clienteRes.json();
+                   console.log('✅ Cliente creado:', cliente);
+                   idCliente = cliente.id_cliente;
+                   nuevoCliente = true;
+               }
+
+               if (!idCliente) {
+                   throw new Error('No se pudo obtener el ID del cliente');
+               }
+
+               console.log('Cliente ID a usar:', idCliente);
+
+               // Crear pedido con el cliente (nuevo o existente)
+               const pedido = await crearPedido(idCliente, carrito, metodoPago, notas);
+               
+               if (!pedido.id_pedido && !pedido.id) {
+                   throw new Error('El servidor no retornó el ID del pedido');
+               }
+
+               const idPedido = pedido.id_pedido || pedido.id;
+               console.log('✅ Pedido creado con ID:', idPedido);
+
+               // Guardar en localStorage para thankyou.html
+               localStorage.setItem('numeroPedido', idPedido);
+               localStorage.setItem('pedidoInfo', JSON.stringify({
+                   id_pedido: idPedido,
+                   cliente: nombres + ' ' + apellidos,
+                   email: email,
+                   total: pedido.total || 0,
+                   estado: 'pendiente'
+               }));
+               
+               localStorage.removeItem('carrito'); // Limpiar carrito
+
+               console.log('🎉 TODO COMPLETADO - Redirigiendo a thankyou.html');
+               
+               // Redirigir a thankyou.html
+               setTimeout(() => {
+                   window.location.href = 'thankyou.html';
+               }, 500);
+
+           } catch (error) {
+               console.error('❌ Error en checkout:', error);
+               alert('Hubo un error al procesar tu pedido:\n\n' + error.message + '\n\nPor favor, revisa la consola (F12) para más detalles.');
+           }
+       });
+   });
+   </script>
   </body>
 </html>

@@ -304,9 +304,145 @@
 
     <!-- Los estudiantes deben agregar aquí el JavaScript para cargar pedidos desde la API -->
     <script>
-        // TODO: Implementar carga de pedidos desde API GET /api/pedidos
-        // Mostrar en la tabla con botones para cambiar estado y eliminar
-        // El estado se puede cambiar con PATCH /api/pedidos/:id/estado
+        const API_URL = 'http://localhost:3000/api';
+        const tablaPedidos = document.getElementById('tabla-pedidos');
+        const searchInput = document.querySelector('input[type="search"]');
+
+        // Cargar pedidos desde la API
+        async function cargarPedidos() {
+            try {
+                const response = await fetch(`${API_URL}/pedidos`);
+                if (!response.ok) {
+                    throw new Error('Error al obtener pedidos');
+                }
+                const pedidos = await response.json();
+                mostrarPedidos(pedidos);
+            } catch (error) {
+                console.error('Error:', error);
+                tablaPedidos.innerHTML = `<tr><td colspan="7" class="text-center text-danger">Error al cargar pedidos: ${error.message}</td></tr>`;
+            }
+        }
+
+        // Mostrar pedidos en la tabla
+        function mostrarPedidos(pedidos) {
+            tablaPedidos.innerHTML = '';
+            
+            if (pedidos.length === 0) {
+                tablaPedidos.innerHTML = `<tr><td colspan="7" class="text-center">No hay pedidos registrados</td></tr>`;
+                return;
+            }
+
+            pedidos.forEach((pedido, index) => {
+                const fecha = new Date(pedido.fecha).toLocaleDateString('es-ES');
+                const total = parseFloat(pedido.total || 0).toFixed(2);
+                const estado = pedido.estado || 'pendiente';
+                const estadoColor = getEstadoColor(estado);
+
+                const fila = document.createElement('tr');
+                fila.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${pedido.nombre} ${pedido.apellido}</td>
+                    <td>${pedido.email}</td>
+                    <td>${fecha}</td>
+                    <td>$${total}</td>
+                    <td>
+                        <span class="badge badge-${estadoColor}">
+                            ${estado.charAt(0).toUpperCase() + estado.slice(1)}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-info" onclick="editarPedido(${pedido.id})">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-warning" onclick="cambiarEstado(${pedido.id}, '${estado}')">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger" onclick="eliminarPedido(${pedido.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tablaPedidos.appendChild(fila);
+            });
+        }
+
+        // Cambiar estado del pedido
+        async function cambiarEstado(idPedido, estadoActual) {
+            const estados = ['pendiente', 'procesando', 'completado', 'cancelado'];
+            const proximoEstado = estados[(estados.indexOf(estadoActual) + 1) % estados.length];
+            
+            if (confirm(`¿Cambiar estado a "${proximoEstado}"?`)) {
+                try {
+                    const response = await fetch(`${API_URL}/pedidos/${idPedido}/estado`, {
+                        method: 'PATCH',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ estado: proximoEstado })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error('Error al cambiar estado');
+                    }
+                    
+                    alert('Estado actualizado correctamente');
+                    cargarPedidos();
+                } catch (error) {
+                    alert(`Error: ${error.message}`);
+                }
+            }
+        }
+
+        // Eliminar pedido
+        async function eliminarPedido(idPedido) {
+            if (confirm('¿Está seguro de que desea eliminar este pedido?')) {
+                try {
+                    const response = await fetch(`${API_URL}/pedidos/${idPedido}`, {
+                        method: 'DELETE'
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error('Error al eliminar pedido');
+                    }
+                    
+                    alert('Pedido eliminado correctamente');
+                    cargarPedidos();
+                } catch (error) {
+                    alert(`Error: ${error.message}`);
+                }
+            }
+        }
+
+        // Editar pedido
+        function editarPedido(idPedido) {
+            alert(`Funcionalidad de editar pedido: ${idPedido}`);
+            // Puedes redirigir a una página de edición o abrir un modal
+        }
+
+        // Obtener color del badge según estado
+        function getEstadoColor(estado) {
+            const colores = {
+                'pendiente': 'warning',
+                'procesando': 'info',
+                'completado': 'success',
+                'cancelado': 'danger'
+            };
+            return colores[estado] || 'secondary';
+        }
+
+        // Buscar en la tabla
+        if (searchInput) {
+            searchInput.addEventListener('keyup', (e) => {
+                const texto = e.target.value.toLowerCase();
+                const filas = tablaPedidos.querySelectorAll('tr');
+                
+                filas.forEach(fila => {
+                    const textoFila = fila.textContent.toLowerCase();
+                    fila.style.display = textoFila.includes(texto) ? '' : 'none';
+                });
+            });
+        }
+
+        // Cargar pedidos al iniciar la página
+        document.addEventListener('DOMContentLoaded', cargarPedidos);
     </script>
 
 </body>

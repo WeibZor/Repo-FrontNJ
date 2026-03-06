@@ -5,6 +5,9 @@ const initializeDatabase = async () => {
     const pool = getPool()
     const connection = await pool.getConnection()
 
+    // Deshabilitar verificación de llaves foráneas temporalmente
+    await connection.query("SET FOREIGN_KEY_CHECKS=0")
+
     // Crear tabla productos
     await connection.query(`
       CREATE TABLE IF NOT EXISTS productos (
@@ -159,6 +162,9 @@ const initializeDatabase = async () => {
 
       console.log("✅ Datos de ejemplo insertados")
     }
+
+    // Reabilitar verificación de llaves foráneas
+    await connection.query("SET FOREIGN_KEY_CHECKS=1")
 
     connection.release()
     console.log("✅ Base de datos MySQL inicializada correctamente")

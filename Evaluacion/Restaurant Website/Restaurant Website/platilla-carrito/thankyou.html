@@ -164,20 +164,61 @@
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
    
    <script>
-     // TODO: Obtener datos del pedido y mostrarlos en la página
-     // Los datos pueden venir de:
-     // 1. localStorage (carrito previo guardado)
-     // 2. Respuesta de la API después de crear el pedido
-     // 3. Parámetros de URL
-     
      document.addEventListener('DOMContentLoaded', () => {
-       // Generar número de pedido (en producción viene de la base de datos)
-       const numeroPedido = '#PED-' + Date.now().toString().slice(-6);
-       document.getElementById('numero-pedido-final').textContent = numeroPedido;
-       localStorage.setItem('numeroPedido', numeroPedido);
-       
-       // Limpiar el carrito después de confirmar
-       localStorage.removeItem('carrito');
+       try {
+         console.log('=== PÁGINA THANK YOU CARGADA ===');
+         
+         // Obtener datos del localStorage
+         const numeroPedido = localStorage.getItem('numeroPedido');
+         const pedidoInfoStr = localStorage.getItem('pedidoInfo');
+         
+         console.log('Numero Pedido:', numeroPedido);
+         console.log('Info Pedido (raw):', pedidoInfoStr);
+         
+         const pedidoInfo = pedidoInfoStr ? JSON.parse(pedidoInfoStr) : {};
+         
+         console.log('Info Pedido (parsed):', pedidoInfo);
+         
+         // Mostrar número de pedido
+         const elementoPedido = document.getElementById('numero-pedido-final');
+         if(!elementoPedido) {
+           console.error('❌ Elemento numero-pedido-final no encontrado!');
+           return;
+         }
+         
+         if(numeroPedido) {
+           elementoPedido.textContent = '#' + numeroPedido;
+           console.log('✅ Número de pedido mostrado:', numeroPedido);
+         } else {
+           elementoPedido.textContent = '#PENDIENTE';
+           console.warn('⚠️ No se encontró número de pedido en localStorage');
+         }
+         
+         // Mostrar otros datos si están disponibles
+         if(pedidoInfo.cliente) {
+           console.log('✅ Cliente:', pedidoInfo.cliente);
+         }
+         
+         if(pedidoInfo.email) {
+           console.log('✅ Email:', pedidoInfo.email);
+         }
+         
+         if(pedidoInfo.total) {
+           console.log('✅ Total:', pedidoInfo.total);
+         }
+         
+         // Mantener los datos por más tiempo en localStorage para que se puedan ver en el dashboard
+         // Limpiar solo después de 10 segundos
+         setTimeout(() => {
+           localStorage.removeItem('numeroPedido');
+           localStorage.removeItem('pedidoInfo');
+           localStorage.removeItem('carrito');
+           console.log('✅ localStorage limpiado');
+         }, 10000);
+         
+       } catch (error) {
+         console.error('❌ Error en thankyou.html:', error);
+       }
      });
    </script>
 </body>

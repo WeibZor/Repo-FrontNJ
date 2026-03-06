@@ -370,8 +370,97 @@
 
     <!-- Los estudiantes deben agregar aquí el JavaScript para cargar clientes desde la API -->
     <script>
-        // TODO: Implementar carga de clientes desde API GET /api/clientes
-        // Mostrar en la tabla con botones de editar y eliminar
+        const API_URL = 'http://localhost:3000/api';
+        const tablaClientes = document.getElementById('tabla-clientes');
+        const searchInput = document.querySelector('input[type="search"]');
+
+        // Cargar clientes desde la API
+        async function cargarClientes() {
+            try {
+                const response = await fetch(`${API_URL}/clientes`);
+                if (!response.ok) {
+                    throw new Error('Error al obtener clientes');
+                }
+                const clientes = await response.json();
+                mostrarClientes(clientes);
+            } catch (error) {
+                console.error('Error:', error);
+                tablaClientes.innerHTML = `<tr><td colspan="7" class="text-center text-danger">Error al cargar clientes: ${error.message}</td></tr>`;
+            }
+        }
+
+        // Mostrar clientes en la tabla
+        function mostrarClientes(clientes) {
+            tablaClientes.innerHTML = '';
+            
+            if (clientes.length === 0) {
+                tablaClientes.innerHTML = `<tr><td colspan="7" class="text-center">No hay clientes registrados</td></tr>`;
+                return;
+            }
+
+            clientes.forEach((cliente, index) => {
+                const fila = document.createElement('tr');
+                fila.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${cliente.nombre}</td>
+                    <td>${cliente.apellido}</td>
+                    <td>${cliente.email}</td>
+                    <td>${cliente.celular}</td>
+                    <td>${cliente.direccion}</td>
+                    <td>
+                        <button class="btn btn-sm btn-info" onclick="editarCliente(${cliente.id_cliente})">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger" onclick="eliminarCliente(${cliente.id_cliente})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tablaClientes.appendChild(fila);
+            });
+        }
+
+        // Eliminar cliente
+        async function eliminarCliente(idCliente) {
+            if (confirm('¿Está seguro de que desea eliminar este cliente?')) {
+                try {
+                    const response = await fetch(`${API_URL}/clientes/${idCliente}`, {
+                        method: 'DELETE'
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error('Error al eliminar cliente');
+                    }
+                    
+                    alert('Cliente eliminado correctamente');
+                    cargarClientes();
+                } catch (error) {
+                    alert(`Error: ${error.message}`);
+                }
+            }
+        }
+
+        // Editar cliente
+        function editarCliente(idCliente) {
+            alert(`Funcionalidad de editar cliente: ${idCliente}`);
+            // Puedes redirigir a una página de edición o abrir un modal
+        }
+
+        // Buscar en la tabla
+        if (searchInput) {
+            searchInput.addEventListener('keyup', (e) => {
+                const texto = e.target.value.toLowerCase();
+                const filas = tablaClientes.querySelectorAll('tr');
+                
+                filas.forEach(fila => {
+                    const textoFila = fila.textContent.toLowerCase();
+                    fila.style.display = textoFila.includes(texto) ? '' : 'none';
+                });
+            });
+        }
+
+        // Cargar clientes al iniciar la página
+        document.addEventListener('DOMContentLoaded', cargarClientes);
     </script>
 
 </body>

@@ -11,10 +11,13 @@ const getPedidos = async (req, res) => {
     if (id) {
       // Obtener pedido con información del cliente
       const [pedidos] = await connection.query(
-        `SELECT p.*, c.nombre, c.apellido, c.email 
+        `SELECT p.*, c.nombre, c.apellido, c.email,
+                COALESCE(SUM(dp.precio * dp.cantidad), 0) as total
         FROM pedido p 
         INNER JOIN clientes c ON p.id_cliente = c.id_cliente 
-        WHERE p.id = ?`,
+        LEFT JOIN detalle_pedido dp ON p.id = dp.id_pedido
+        WHERE p.id = ?
+        GROUP BY p.id`,
         [id],
       )
 
@@ -37,9 +40,12 @@ const getPedidos = async (req, res) => {
       }
     } else {
       const [rows] = await connection.query(
-        `SELECT p.*, c.nombre, c.apellido, c.email 
+        `SELECT p.*, c.nombre, c.apellido, c.email,
+                COALESCE(SUM(dp.precio * dp.cantidad), 0) as total
         FROM pedido p 
-        INNER JOIN clientes c ON p.id_cliente = c.id_cliente 
+        INNER JOIN clientes c ON p.id_cliente = c.id_cliente
+        LEFT JOIN detalle_pedido dp ON p.id = dp.id_pedido
+        GROUP BY p.id
         ORDER BY p.id DESC`,
       )
       res.json(rows)
@@ -54,7 +60,7 @@ const getPedidos = async (req, res) => {
 // Crear pedido
 const createPedido = async (req, res) => {
   try {
-    const { id_cliente, descuento, metodo_pago, aumento, productos } = req.body
+    const { id_cliente, descuento, metodo_pago, aumento, estado, productos } = req.body
 
     if (!id_cliente || !metodo_pago || !productos || productos.length === 0) {
       return res.status(400).json({ message: "Cliente, método de pago y productos son requeridos" })
@@ -64,21 +70,39 @@ const createPedido = async (req, res) => {
     const connection = await pool.getConnection()
 
     try {
+      // Verificar que el cliente existe
+      const [clientes] = await connection.query("SELECT id_cliente FROM clientes WHERE id_cliente = ?", [id_cliente])
+      if (clientes.length === 0) {
+        return res.status(404).json({ message: "Cliente no encontrado" })
+      }
+
+      // Verificar que los productos existen
+      for (const producto of productos) {
+        const [prods] = await connection.query("SELECT id FROM productos WHERE id = ?", [producto.id_producto])
+        if (prods.length === 0) {
+          return res.status(404).json({ message: `Producto ${producto.id_producto} no encontrado` })
+        }
+      }
+
       await connection.beginTransaction()
 
       // Crear el pedido
       const [pedidoResult] = await connection.query(
-        "INSERT INTO pedido (id_cliente, descuento, metodo_pago, aumento) VALUES (?, ?, ?, ?)",
-        [id_cliente, descuento || 0, metodo_pago, aumento || 0],
+        "INSERT INTO pedido (id_cliente, descuento, metodo_pago, aumento, estado) VALUES (?, ?, ?, ?, ?)",
+        [id_cliente, descuento || 0, metodo_pago, aumento || 0, estado || 'pendiente'],
       )
       const pedidoId = pedidoResult.insertId
 
       // Agregar productos al detalle del pedido
+      let totalCalculado = 0;
       for (const producto of productos) {
         await connection.query(
           "INSERT INTO detalle_pedido (id_pedido, id_producto, precio, cantidad) VALUES (?, ?, ?, ?)",
           [pedidoId, producto.id_producto, producto.precio, producto.cantidad],
         )
+
+        // Calcular total
+        totalCalculado += producto.precio * producto.cantidad;
 
         // Actualizar stock
         await connection.query("UPDATE productos SET stock = stock - ? WHERE id = ?", [
@@ -91,7 +115,9 @@ const createPedido = async (req, res) => {
 
       res.status(201).json({
         message: "Pedido creado con éxito",
+        id_pedido: pedidoId,
         id: pedidoId,
+        total: totalCalculado
       })
     } catch (error) {
       await connection.rollback()

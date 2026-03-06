@@ -46,11 +46,16 @@ const createCliente = async (req, res) => {
 
       res.status(201).json({
         message: "Cliente creado con éxito",
-        id: result.insertId,
+        id_cliente: result.insertId,
+        id: result.insertId
       })
     } catch (err) {
       if (err.code === "ER_DUP_ENTRY") {
-        res.status(409).json({ message: "El email ya está registrado" })
+        res.status(409).json({ 
+          message: "El email ya está registrado. Por favor usa otro email o inicia sesión con tu cuenta existente.",
+          email: email,
+          code: "EMAIL_EXISTS"
+        })
       } else {
         throw err
       }

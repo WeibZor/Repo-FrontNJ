@@ -374,7 +374,7 @@
                                 <th>Acciones</th>
                               </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="tabla-productos">
                               
                             </tbody>
                           </table>
@@ -444,6 +444,103 @@
     <!-- Page level custom scripts -->
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
+
+    <script>
+        const API_URL = 'http://localhost:3000/api';
+        const tablaProductos = document.getElementById('tabla-productos');
+        const searchInput = document.querySelector('input[type="search"]');
+
+        // Cargar productos desde la API
+        async function cargarProductos() {
+            try {
+                const response = await fetch(`${API_URL}/productos`);
+                if (!response.ok) {
+                    throw new Error('Error al obtener productos');
+                }
+                const productos = await response.json();
+                mostrarProductos(productos);
+            } catch (error) {
+                console.error('Error:', error);
+                tablaProductos.innerHTML = `<tr><td colspan="7" class="text-center text-danger">Error al cargar productos: ${error.message}</td></tr>`;
+            }
+        }
+
+        // Mostrar productos en la tabla
+        function mostrarProductos(productos) {
+            tablaProductos.innerHTML = '';
+            
+            if (productos.length === 0) {
+                tablaProductos.innerHTML = `<tr><td colspan="7" class="text-center">No hay productos registrados</td></tr>`;
+                return;
+            }
+
+            productos.forEach((producto, index) => {
+                const precio = parseFloat(producto.precio).toFixed(2);
+                const fila = document.createElement('tr');
+                fila.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${producto.nombre}</td>
+                    <td>${producto.descripcion || 'N/A'}</td>
+                    <td>$${precio}</td>
+                    <td><span class="badge ${producto.stock > 0 ? 'badge-success' : 'badge-danger'}">${producto.stock}</span></td>
+                    <td>
+                        ${producto.imagen ? `<img src="${producto.imagen}" width="50" height="50" style="border-radius: 5px;">` : 'Sin imagen'}
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-info" onclick="editarProducto(${producto.id})">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger" onclick="eliminarProducto(${producto.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tablaProductos.appendChild(fila);
+            });
+        }
+
+        // Eliminar producto
+        async function eliminarProducto(idProducto) {
+            if (confirm('¿Está seguro de que desea eliminar este producto?')) {
+                try {
+                    const response = await fetch(`${API_URL}/productos/${idProducto}`, {
+                        method: 'DELETE'
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error('Error al eliminar producto');
+                    }
+                    
+                    alert('Producto eliminado correctamente');
+                    cargarProductos();
+                } catch (error) {
+                    alert(`Error: ${error.message}`);
+                }
+            }
+        }
+
+        // Editar producto
+        function editarProducto(idProducto) {
+            alert(`Funcionalidad de editar producto: ${idProducto}`);
+            // Puedes redirigir a una página de edición o abrir un modal
+        }
+
+        // Buscar en la tabla
+        if (searchInput) {
+            searchInput.addEventListener('keyup', (e) => {
+                const texto = e.target.value.toLowerCase();
+                const filas = tablaProductos.querySelectorAll('tr');
+                
+                filas.forEach(fila => {
+                    const textoFila = fila.textContent.toLowerCase();
+                    fila.style.display = textoFila.includes(texto) ? '' : 'none';
+                });
+            });
+        }
+
+        // Cargar productos al iniciar la página
+        document.addEventListener('DOMContentLoaded', cargarProductos);
+    </script>
 
 </body>
 
