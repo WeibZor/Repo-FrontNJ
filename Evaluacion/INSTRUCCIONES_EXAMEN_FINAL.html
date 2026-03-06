@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instrucciones Examen Final - Tienda de Comidas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 20px;
+        }
+        
+        h1 {
+            color: #667eea;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 18px;
+        }
+        
+        .date {
+            color: #999;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        
+        h2 {
+            color: #667eea;
+            font-size: 24px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+            padding-left: 15px;
+        }
+        
+        h3 {
+            color: #555;
+            font-size: 18px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #764ba2;
+        }
+        
+        .highlight {
+            background-color: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        
+        .info-box {
+            background-color: #e7f3ff;
+            border: 1px solid #2196F3;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        
+        .error-box {
+            background-color: #ffebee;
+            border: 1px solid #f44336;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        
+        .success-box {
+            background-color: #e8f5e9;
+            border: 1px solid #4caf50;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        
+        ul {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        code {
+            background-color: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: #d63384;
+        }
+        
+        .code-block {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        th {
+            background-color: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+        
+        td {
+            border: 1px solid #ddd;
+            padding: 12px;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .checklist {
+            list-style: none;
+            margin: 15px 0;
+        }
+        
+        .checklist li {
+            padding-left: 25px;
+            position: relative;
+            margin-bottom: 10px;
+        }
+        
+        .checklist li:before {
+            content: "☐";
+            position: absolute;
+            left: 0;
+            font-size: 18px;
+            color: #667eea;
+        }
+        
+        .duration {
+            display: inline-block;
+            background-color: #667eea;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+        
+        .module-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .module-card h3 {
+            color: white;
+            margin-top: 0;
+        }
+        
+        .footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+        }
+        
+        .warning {
+            color: #f44336;
+            font-weight: bold;
+        }
+        
+        .success {
+            color: #4caf50;
+            font-weight: bold;
+        }
+        
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🍔 EXAMEN FINAL - TIENDA DE COMIDAS</h1>
+            <p class="subtitle">Desarrollo de Aplicaciones Web con REST API</p>
+            <p class="date">Marzo 2026</p>
+        </header>
+
+        <div class="info-box">
+            <strong>⏱️ Duración del Examen:</strong> 4 horas<br>
+            <strong>📊 Evaluación:</strong> Funcionalidad 40%, Código 30%, Integración BD 20%, UX 10%<br>
+            <strong>🎯 Objetivo:</strong> Crear un sistema completo de e-commerce con Frontend + Backend + Base de Datos
+        </div>
+
+        <!-- SECCIÓN 1: INTRODUCCIÓN -->
+        <h2>1. INTRODUCCIÓN Y OBJETIVOS</h2>
+        <div class="section">
+            <p>
+                En este examen deben demostrar sus habilidades en desarrollo web full-stack implementando 
+                un sistema de tienda de comidas con carrito de compras, integración de APIs REST y 
+                persistencia en base de datos MySQL.
+            </p>
+            
+            <h3>Objetivos Específicos:</h3>
+            <ul>
+                <li>Correr correctamente el servidor backend Node.js</li>
+                <li>Implementar CRUD completo en el frontend (Dashboard)</li>
+                <li>Crear un carrito de compras funcional con localStorage</li>
+                <li>Realizar peticiones fetch() a la API REST</li>
+                <li>Guardar pedidos en la base de datos</li>
+                <li>Validar formularios y manejar errores</li>
+            </ul>
+        </div>
+
+        <!-- SECCIÓN 2: INSTRUCCIONES DEL BACKEND -->
+        <h2>2. CONFIGURACIÓN Y EJECUCIÓN DEL BACKEND</h2>
+        <div class="section">
+            <h3>2.1 Requisitos Previos</h3>
+            <ul>
+                <li>Node.js v14+ instalado</li>
+                <li>MySQL Server corriendo</li>
+                <li>npm disponible en la terminal</li>
+            </ul>
+
+            <h3>2.2 Pasos para Ejecutar el Backend</h3>
+            
+            <div class="highlight">
+                <strong>Paso 1: Abrir la terminal en la carpeta del backend</strong>
+            </div>
+            <div class="code-block">
+cd C:\ruta\a\BACKEND_TIENDA_NODE_MYSQL
+            </div>
+
+            <div class="highlight">
+                <strong>Paso 2: Instalar dependencias (solo la primera vez)</strong>
+            </div>
+            <div class="code-block">
+npm install
+            </div>
+
+            <div class="highlight">
+                <strong>Paso 3: Configurar la base de datos</strong>
+            </div>
+            <p>
+                El archivo <code>.env</code> debe estar configurado así:
+            </p>
+            <div class="code-block">
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=
+DB_NAME=tienda_db
+PORT=3000
+            </div>
+            
+            <p>Si la base de datos no existe, ejecutar el script de inicialización:</p>
+            <div class="code-block">
+node scripts/init-db.js
+            </div>
+
+            <div class="highlight">
+                <strong>Paso 4: Iniciar el servidor</strong>
+            </div>
+            <div class="code-block">
+npm start
+            </div>
+
+            <p>O con nodemon (modo desarrollo):</p>
+            <div class="code-block">
+npm run dev
+            </div>
+
+            <div class="success-box">
+                <strong>✅ Éxito:</strong> Debe aparecer: <code>Servidor corriendo en puerto 3000</code>
+            </div>
+
+            <h3>2.3 Endpoints Disponibles</h3>
+            <p>El backend proporciona estos endpoints para el examen:</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Módulo</th>
+                        <th>Método</th>
+                        <th>Endpoint</th>
+                        <th>Descripción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="4">Productos</td>
+                        <td>GET</td>
+                        <td><code>/api/productos</code></td>
+                        <td>Obtener todos los productos</td>
+                    </tr>
+                    <tr>
+                        <td>POST</td>
+                        <td><code>/api/productos</code></td>
+                        <td>Crear nuevo producto</td>
+                    </tr>
+                    <tr>
+                        <td>PUT</td>
+                        <td><code>/api/productos/:id</code></td>
+                        <td>Actualizar producto</td>
+                    </tr>
+                    <tr>
+                        <td>DELETE</td>
+                        <td><code>/api/productos/:id</code></td>
+                        <td>Eliminar producto</td>
+                    </tr>
+                    
+                    <tr>
+                        <td rowspan="4">Clientes</td>
+                        <td>GET</td>
+                        <td><code>/api/clientes</code></td>
+                        <td>Obtener todos los clientes</td>
+                    </tr>
+                    <tr>
+                        <td>POST</td>
+                        <td><code>/api/clientes</code></td>
+                        <td>Crear nuevo cliente</td>
+                    </tr>
+                    <tr>
+                        <td>PUT</td>
+                        <td><code>/api/clientes/:id</code></td>
+                        <td>Actualizar cliente</td>
+                    </tr>
+                    <tr>
+                        <td>DELETE</td>
+                        <td><code>/api/clientes/:id</code></td>
+                        <td>Eliminar cliente</td>
+                    </tr>
+                    
+                    <tr>
+                        <td rowspan="5">Pedidos</td>
+                        <td>GET</td>
+                        <td><code>/api/pedidos</code></td>
+                        <td>Obtener todos los pedidos</td>
+                    </tr>
+                    <tr>
+                        <td>POST</td>
+                        <td><code>/api/pedidos</code></td>
+                        <td>Crear nuevo pedido</td>
+                    </tr>
+                    <tr>
+                        <td>PUT</td>
+                        <td><code>/api/pedidos/:id</code></td>
+                        <td>Actualizar pedido</td>
+                    </tr>
+                    <tr>
+                        <td>PATCH</td>
+                        <td><code>/api/pedidos/:id/estado</code></td>
+                        <td>Cambiar estado del pedido</td>
+                    </tr>
+                    <tr>
+                        <td>DELETE</td>
+                        <td><code>/api/pedidos/:id</code></td>
+                        <td>Eliminar pedido</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>2.4 Solución de Problemas Comunes</h3>
+            <div class="error-box">
+                <strong>❌ Error: "Cannot find module"</strong><br>
+                <strong>Solución:</strong> Ejecutar <code>npm install</code>
+            </div>
+
+            <div class="error-box">
+                <strong>❌ Error: "Connection refused"</strong><br>
+                <strong>Solución:</strong> Verificar que MySQL esté corriendo
+            </div>
+
+            <div class="error-box">
+                <strong>❌ Error: "Database does not exist"</strong><br>
+                <strong>Solución:</strong> Ejecutar <code>node scripts/init-db.js</code>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 3: MÓDULO DASHBOARD -->
+        <h2>3. INSTRUCCIONES - MÓDULO DASHBOARD (Frontend-apicrud)</h2>
+        <div class="module-card">
+            <h3>📊 Gestiones Administrativas</h3>
+            <p>Los estudiantes deben implementar el CRUD (Create, Read, Update, Delete) para 4 módulos</p>
+        </div>
+
+        <h3>3.1 Módulo de Productos</h3>
+        <div class="section">
+            <p><strong>Archivo:</strong> <code>listado-pro.html</code> y <code>crear-pro.html</code></p>
+            
+            <h4>✅ Tareas a Implementar:</h4>
+            <ul class="checklist">
+                <li>Cargar lista de productos desde <code>GET /api/productos</code></li>
+                <li>Mostrar en tabla: ID, Nombre, Precio, Descripción, Acciones</li>
+                <li>Botones Editar y Eliminar funcionales</li>
+                <li>Crear nuevo producto con formulario</li>
+                <li>Validación de campos requeridos</li>
+                <li>Actualizar producto con PUT</li>
+                <li>Mostrar mensajes de éxito/error</li>
+            </ul>
+
+            <h4>Estructura de Producto (JSON):</h4>
+            <div class="code-block">
+{
+  "id_producto": 1,
+  "nombre": "Hamburguesa Clásica",
+  "precio": 10.50,
+  "descripcion": "Hamburguesa de carne con lechuga y tomate",
+  "imagen": "hamburguesa.jpg",
+  "disponible": 1
+}
+            </div>
+        </div>
+
+        <h3>3.2 Módulo de Clientes</h3>
+        <div class="section">
+            <p><strong>Archivo:</strong> <code>listado-clientes.html</code> y <code>crear-cliente.html</code></p>
+            
+            <h4>✅ Tareas a Implementar:</h4>
+            <ul class="checklist">
+                <li>Cargar lista de clientes desde <code>GET /api/clientes</code></li>
+                <li>Mostrar en tabla: ID, Nombre, Apellido, Email, Celular, Acciones</li>
+                <li>Crear nuevo cliente</li>
+                <li>Actualizar datos de cliente</li>
+                <li>Eliminar cliente con confirmación</li>
+                <li>Validar email válido</li>
+                <li>Buscar/filtrar clientes</li>
+            </ul>
+
+            <h4>Campos del Cliente:</h4>
+            <div class="code-block">
+{
+  "id_cliente": 1,
+  "nombre": "Juan",
+  "apellido": "Pérez",
+  "email": "juan@example.com",
+  "celular": "3001234567",
+  "direccion": "Calle 10 #20-30",
+  "descripcion": "Cliente frecuente"
+}
+            </div>
+        </div>
+
+        <h3>3.3 Módulo de Pedidos</h3>
+        <div class="section">
+            <p><strong>Archivo:</strong> <code>listado-pedidos.html</code> y <code>crear-pedido.html</code></p>
+            
+            <h4>✅ Tareas a Implementar:</h4>
+            <ul class="checklist">
+                <li>Cargar lista de pedidos desde <code>GET /api/pedidos</code></li>
+                <li>Mostrar en tabla: ID, Cliente, Email, Fecha, Total, Estado, Acciones</li>
+                <li>Cambiar estado del pedido (PATCH /api/pedidos/:id/estado)</li>
+                <li>Estados válidos: pendiente, procesando, completado, cancelado</li>
+                <li>Crear nuevo pedido con múltiples productos</li>
+                <li>Seleccionar cliente desde dropdown</li>
+                <li>Agregar productos dinámicamente</li>
+                <li>Calcular total automáticamente</li>
+                <li>Aplicar descuentos y costos de domicilio</li>
+            </ul>
+
+            <h4>Estructura de Pedido:</h4>
+            <div class="code-block">
+{
+  "id_pedido": 1,
+  "id_cliente": 1,
+  "metodo_pago": "contra-entrega",
+  "estado": "pendiente",
+  "total": 25.50,
+  "fecha": "2026-03-01",
+  "productos": [
+    {
+      "id_producto": 1,
+      "cantidad": 2,
+      "subtotal": 21.00
+    }
+  ]
+}
+            </div>
+        </div>
+
+        <h3>3.4 Módulo de Usuarios</h3>
+        <div class="section">
+            <p><strong>Archivo:</strong> <code>listado-usuarios.html</code> y <code>crear-usuario.html</code></p>
+            
+            <h4>✅ Tareas a Implementar:</h4>
+            <ul class="checklist">
+                <li>Cargar lista de usuarios desde <code>GET /api/usuarios</code></li>
+                <li>Mostrar en tabla: ID, Usuario, Rol, Fecha Creación, Acciones</li>
+                <li>Roles: administrador, vendedor, cajero</li>
+                <li>Crear usuario con rol</li>
+                <li>Validar contraseña (mínimo 6 caracteres)</li>
+                <li>Confirmar contraseña coincide</li>
+                <li>Actualizar usuario</li>
+                <li>Eliminar usuario</li>
+            </ul>
+
+            <h4>Estructura de Usuario:</h4>
+            <div class="code-block">
+{
+  "id_usuario": 1,
+  "usuario": "admin",
+  "contrasena": "hash_encriptado",
+  "rol": "administrador",
+  "creado_en": "2026-01-15"
+}
+            </div>
+        </div>
+
+        <h3>3.5 Requisitos Técnicos del Dashboard</h3>
+        <div class="highlight">
+            <ul>
+                <li>✅ Todas las peticiones deben ir a <code>http://localhost:3000/api/</code></li>
+                <li>✅ Usar <code>fetch()</code> para todas las peticiones</li>
+                <li>✅ Manejar errores de conexión con try/catch</li>
+                <li>✅ Validar respuestas HTTP (200, 404, 500)</li>
+                <li>✅ Mostrar mensajes de error/éxito al usuario</li>
+                <li>✅ Código limpio y bien documentado</li>
+                <li>✅ Funciones reutilizables</li>
+            </ul>
+        </div>
+
+        <!-- SECCIÓN 4: MÓDULO TIENDA -->
+        <h2>4. INSTRUCCIONES - PÁGINA DE COMPRAS (platilla-carrito)</h2>
+        <div class="module-card">
+            <h3>🛒 Sistema de Carrito de Compras</h3>
+            <p>Los estudiantes deben crear una tienda funcional con carrito y checkout</p>
+        </div>
+
+        <h3>4.1 Página Principal - index.html</h3>
+        <div class="section">
+            <p><strong>Objetivo:</strong> Mostrar catálogo de productos y agregar al carrito</p>
+            
+            <h4>✅ Tareas a Implementar:</h4>
+            <ul class="checklist">
+                <li>Cada producto tiene atributos: <code>data-id, data-price, data-name, data-image</code></li>
+                <li>Click en ".btn-product" debe agregar al carrito</li>
+                <li>Guardar carrito en localStorage</li>
+                <li>Actualizar contador de carrito (.contar-pro)</li>
+                <li>Mostrar notificación al agregar producto</li>
+                <li>Navegar a cart.html desde botón</li>
+            </ul>
+
+            <h4>Ejemplo de JavaScript:</h4>
+            <div class="code-block">
+// Obtener todos los botones de agregar
+document.querySelectorAll('.btn-product').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    const card = e.target.closest('.card.producto');
+    const id = card.dataset.id;
+    const nombre = card.dataset.name;
+    const precio = card.dataset.price;
+    // TODO: Agregar al carrito
+  });
+});
+            </div>
+        </div>
+
+        <h3>4.2 Página de Carrito - cart.html</h3>
+        <div class="section">
+            <p><strong>Objetivo:</strong> Visualizar, modificar y revisar el carrito</p>
+            
+            <h4>✅ Tareas a Implementar:</h4>
+            <ul class="checklist">
+                <li>Cargar carrito desde localStorage</li>
+                <li>Mostrar tabla con: Imagen, Nombre, Precio, Cantidad, Subtotal</li>
+                <li>Botón eliminar producto</li>
+                <li>Cambiar cantidad con input numérico</li>
+                <li>Calcular subtotal automáticamente</li>
+                <li>Mostrar total del carrito</li>
+                <li>Botón "Continuar comprando" (volver a index)</li>
+                <li>Botón "Ir a pagar" (ir a checkout)</li>
+            </ul>
+
+            <h4>IDs a Usar:</h4>
+            <div class="code-block">
+- tabla-carrito: Tabla principal
+- carrito-items: tbody para las filas
+- subtotal-resumen: Mostrar subtotal ($X.XX)
+- domicilio-resumen: Mostrar costo envío
+- descuento-resumen: Mostrar descuentos
+- total-resumen: Mostrar TOTAL
+            </div>
+        </div>
+
+        <h3>4.3 Página de Checkout - checkout.html</h3>
+        <div class="section">
+            <p><strong>Objetivo:</strong> Recolectar datos del cliente y procesar el pedido</p>
+            
+            <h4>✅ Tareas a Implementar:</h4>
+            <ul class="checklist">
+                <li>Formulario con IDs específicos (nombres, apellidos, email, celular, etc)</li>
+                <li>Mostrar resumen del carrito dinámicamente</li>
+                <li>Seleccionar método de pago (contra-entrega, PSE, transferencia)</li>
+                <li>Validar que todos los campos estén llenos</li>
+                <li>Validar email válido</li>
+                <li>Calcular total con impuestos/domicilio</li>
+                <li>Botón "Place Order" hace POST a /api/pedidos</li>
+                <li>Mostrar error si falla la conexión</li>
+                <li>Redirigir a thankyou.html si es exitoso</li>
+            </ul>
+
+            <h4>Estructura POST a /api/pedidos:</h4>
+            <div class="code-block">
+{
+  "id_cliente": 1,
+  "metodo_pago": "contra-entrega",
+  "estado": "pendiente",
+  "total": 25.50,
+  "notas": "Sin cebolla",
+  "productos": [
+    {"id_producto": 1, "cantidad": 2}
+  ]
+}
+            </div>
+        </div>
+
+        <h3>4.4 Página de Confirmación - thankyou.html</h3>
+        <div class="section">
+            <p><strong>Objetivo:</strong> Confirmar que el pedido fue recibido</p>
+            
+            <h4>✅ Tareas a Implementar:</h4>
+            <ul class="checklist">
+                <li>Mostrar mensaje de éxito</li>
+                <li>Mostrar número de pedido generado</li>
+                <li>Mostrar tiempo estimado de entrega</li>
+                <li>Limpiar carrito de localStorage</li>
+                <li>Botón volver al inicio</li>
+            </ul>
+        </div>
+
+        <h3>4.5 Requisitos Técnicos del Carrito</h3>
+        <div class="highlight">
+            <ul>
+                <li>✅ Usar <strong>localStorage</strong> para guardar carrito</li>
+                <li>✅ Estructura del carrito en localStorage:</li>
+                <div class="code-block" style="margin: 10px 0;">
+const carrito = [
+  {
+    id: 1,
+    nombre: "Hamburguesa",
+    precio: 10.50,
+    cantidad: 2,
+    imagen: "./images/b1.png"
+  }
+];
+                </div>
+                <li>✅ Usar <code>JSON.stringify()</code> para guardar</li>
+                <li>✅ Usar <code>JSON.parse()</code> para recuperar</li>
+                <li>✅ Calcular totales correctamente</li>
+                <li>✅ Validar formulario antes de enviar</li>
+                <li>✅ Manejar errores de red</li>
+            </ul>
+        </div>
+
+        <!-- SECCIÓN 5: CHECKLIST FINAL -->
+        <h2>5. CHECKLIST DE ENTREGA</h2>
+        <div class="section">
+            <h3>Antes de Entregar, Verificar:</h3>
+            
+            <h4>Backend ✅</h4>
+            <ul class="checklist">
+                <li>Backend corre sin errores en puerto 3000</li>
+                <li>Base de datos creada y poblada</li>
+                <li>Todos los endpoints responden correctamente</li>
+                <li>CORS habilitado para peticiones frontend</li>
+            </ul>
+
+            <h4>Dashboard ✅</h4>
+            <ul class="checklist">
+                <li>Módulo Productos: CRUD completo</li>
+                <li>Módulo Clientes: CRUD completo</li>
+                <li>Módulo Pedidos: CRUD + cambio de estado</li>
+                <li>Módulo Usuarios: CRUD</li>
+                <li>Todas las páginas cargan datos correctamente</li>
+                <li>Formularios validan datos</li>
+                <li>Mensajes de error/éxito visibles</li>
+                <li>Navegación entre módulos funciona</li>
+            </ul>
+
+            <h4>Tienda de Compras ✅</h4>
+            <ul class="checklist">
+                <li>Se pueden agregar productos al carrito</li>
+                <li>Carrito persiste al cambiar de página</li>
+                <li>Se puede modificar cantidad en carrito</li>
+                <li>Se pueden eliminar productos del carrito</li>
+                <li>Totales calculan correctamente</li>
+                <li>Formulario checkout valida datos</li>
+                <li>Pedido se guarda en base de datos</li>
+                <li>Muestra página de confirmación</li>
+            </ul>
+
+            <h4>Código ✅</h4>
+            <ul class="checklist">
+                <li>Código bien indentado y legible</li>
+                <li>Funciones documentadas con comentarios</li>
+                <li>Variables con nombres descriptivos</li>
+                <li>Sin errores en consola del navegador</li>
+                <li>Manejo de errores implementado</li>
+            </ul>
+        </div>
+
+        <!-- SECCIÓN 6: PAUTAS DE EVALUACIÓN -->
+        <h2>6. PAUTAS DE EVALUACIÓN</h2>
+        <div class="section">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Criterio</th>
+                        <th>Porcentaje</th>
+                        <th>Descripción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Funcionalidad</strong></td>
+                        <td>40%</td>
+                        <td>¿Todas las operaciones CRUD funcionan? ¿El carrito y checkout son funcionales?</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Integración API</strong></td>
+                        <td>20%</td>
+                        <td>¿Las peticiones fetch() son correctas? ¿Se integra bien con el backend?</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Persistencia BD</strong></td>
+                        <td>20%</td>
+                        <td>¿Los datos se guardan en la base de datos? ¿Se guardan ordenadamente?</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Código Limpio</strong></td>
+                        <td>15%</td>
+                        <td>¿El código es legible? ¿Está bien organizado? ¿Tiene comentarios?</td>
+                    </tr>
+                    <tr>
+                        <td><strong>UX/Manejo de Errores</strong></td>
+                        <td>5%</td>
+                        <td>¿Muestra mensajes claros? ¿Maneja errores de conexión?</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- SECCIÓN 7: RECURSOS -->
+        <h2>7. RECURSOS Y AYUDA</h2>
+        <div class="section">
+            <h3>Documentación Útil</h3>
+            <ul>
+                <li><strong>Fetch API:</strong> <code>https://developer.mozilla.org/es/docs/Web/API/Fetch_API</code></li>
+                <li><strong>localStorage:</strong> <code>https://developer.mozilla.org/es/docs/Web/API/Storage</code></li>
+                <li><strong>REST API:</strong> <code>https://restfulapi.net/</code></li>
+                <li><strong>Bootstrap 4:</strong> <code>https://getbootstrap.com/docs/4.6/</code></li>
+            </ul>
+
+            <h3>Comandos Útiles para Debug</h3>
+            <div class="code-block">
+// En la consola del navegador:
+console.log(JSON.parse(localStorage.getItem('carrito')));
+localStorage.clear(); // Limpiar todo
+fetch('http://localhost:3000/api/productos').then(r => r.json()).then(d => console.log(d));
+            </div>
+
+            <h3>Problemas Comunes y Soluciones</h3>
+            <div class="error-box">
+                <strong>❌ "Cannot GET /api/productos"</strong><br>
+                Verificar que el endpoint existe y el backend está corriendo en puerto 3000
+            </div>
+
+            <div class="error-box">
+                <strong>❌ "CORS error"</strong><br>
+                El backend tiene CORS habilitado, asegúrate de usar la URL correcta
+            </div>
+
+            <div class="error-box">
+                <strong>❌ "localStorage.getItem is null"</strong><br>
+                Verificar que hayas guardado datos con localStorage.setItem() primero
+            </div>
+
+            <div class="error-box">
+                <strong>❌ "Esperaba JSON pero recibí HTML"</strong><br>
+                La respuesta no fue exitosa. Verificar status HTTP en Network tab
+            </div>
+        </div>
+
+        <!-- SECCIÓN 8: CONSEJOS FINALES -->
+        <h2>8. CONSEJOS PARA EL ÉXITO</h2>
+        <div class="section">
+            <div class="success-box">
+                <strong>💡 Tip 1:</strong> Empieza por el módulo productos (ya tiene ejemplo de código)
+            </div>
+
+            <div class="success-box">
+                <strong>💡 Tip 2:</strong> Prueba cada operación en la consola antes de implementarla
+            </div>
+
+            <div class="success-box">
+                <strong>💡 Tip 3:</strong> Usa las Developer Tools (F12) para debuggear
+            </div>
+
+            <div class="success-box">
+                <strong>💡 Tip 4:</strong> Valida los datos antes de enviar al servidor
+            </div>
+
+            <div class="success-box">
+                <strong>💡 Tip 5:</strong> Implementa funcionalidad básica primero, luego mejora
+            </div>
+
+            <div class="success-box">
+                <strong>💡 Tip 6:</strong> Documenta tu código con comentarios claros
+            </div>
+
+            <div class="success-box">
+                <strong>💡 Tip 7:</strong> Guarda tu trabajo frecuentemente
+            </div>
+
+            <div class="success-box">
+                <strong>💡 Tip 8:</strong> Si algo no funciona, usa console.log() para debuggear
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2026 - Examen Final Desarrollo Web | Tienda de Comidas con REST API y MySQL</p>
+            <p>Para imprimir como PDF: Usar Ctrl+P o File → Print → Guardar como PDF</p>
+        </div>
+    </div>
+</body>
+</html>
