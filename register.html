@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Inventario - Register</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+    <!-- Estilos para el dropdown personalizado de roles -->
+    <style>
+        /* Contenedor del dropdown */
+        .custom-dropdown {
+            position: relative;
+            width: 100%;
+        }
+
+        /* Botón que abre el dropdown */
+        .dropdown-toggle {
+            display: block;
+            width: 100%;
+            padding: 12px 15px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 0.35rem;
+            color: #333;
+            font-size: 14px;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-toggle:hover {
+            border-color: #80bdff;
+        }
+
+        .dropdown-toggle.active {
+            border-color: #80bdff;
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+        }
+
+        /* Menú del dropdown */
+        .dropdown-menu-custom {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 0.35rem 0.35rem;
+            max-height: 250px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .dropdown-menu-custom.show {
+            display: block;
+        }
+
+        /* Opciones del dropdown */
+        .dropdown-menu-custom .option {
+            padding: 12px 15px;
+            color: #333;
+            cursor: pointer;
+            background-color: #fff;
+            transition: background-color 0.2s ease;
+        }
+
+        .dropdown-menu-custom .option:hover {
+            background-color: #e9ecef;
+        }
+
+        .dropdown-menu-custom .option.selected {
+            background-color: #007bff;
+            color: #fff;
+            font-weight: 500;
+        }
+    </style>
+
+</head>
+
+<body class="bg-gradient-primary">
+
+    <div class="container">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                    <div class="col-lg-7">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                            </div>
+                            <form class="user">
+                                <!-- 
+                                    ============ CAMPO DE ROL ============
+                                    Este es un dropdown PERSONALIZADO (no el select nativo del navegador)
+                                    Hicimos personalizado porque los select nativos no se pueden estilizar bien
+                                    Consta de:
+                                    1. Un botón que muestra el valor seleccionado
+                                    2. Un menú que se abre/cierra al hacer clic
+                                    3. Un input oculto que guarda el valor real (para JavaScript)
+                                -->
+                                <div class="form-group">
+                                    <label for="dropdownToggle">Rol</label>
+                                    
+                                    <!-- Contenedor del dropdown personalizado -->
+                                    <div class="custom-dropdown">
+                                        <!-- 
+                                            Este es el botón que el usuario ve y clickea
+                                            id="dropdownToggle" es buscado por el JavaScript
+                                            Inicialmente muestra "-- Seleccionar Rol --"
+                                        -->
+                                        <button type="button" class="dropdown-toggle" id="dropdownToggle">
+                                            -- Seleccionar Rol --
+                                        </button>
+                                        
+                                        <!-- 
+                                            Este es el menú que se muestra cuando el usuario hace clic
+                                            id="dropdownMenu" es buscado por el JavaScript
+                                            Inicialmente está oculto (display: none en CSS)
+                                            Se abre cuando se le agrega la clase "show"
+                                        -->
+                                        <div class="dropdown-menu-custom" id="dropdownMenu">
+                                            <!-- 
+                                                Cada opción tiene data-value
+                                                data-value = el valor que se enviará al servidor
+                                                El usuario ve el texto (ej: "Administrador")
+                                                Pero se envía el data-value (ej: "administrador")
+                                            -->
+                                            <div class="option" data-value="">-- Seleccionar Rol --</div>
+                                            <div class="option" data-value="administrador">Administrador</div>
+                                            <div class="option" data-value="vendedor">Vendedor</div>
+                                            <div class="option" data-value="cajero">Cajero</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 
+                                        Input OCULTO que el usuario no ve pero el JavaScript si
+                                        id="rolForm" es lo que busca register.js
+                                        Cuando el usuario selecciona un rol, esto se rellena automáticamente
+                                        Ejemplo: si selecciona "Administrador", esto tendría value="administrador"
+                                    -->
+                                    <input type="hidden" id="rolForm" value="">
+                                </div>
+
+                                <!-- 
+                                    ============ CAMPO DE USUARIO ============
+                                    Un input normal donde el usuario escribe su nombre de usuario
+                                    id="usuarioInput" es lo que busca register.js
+                                    placeholder = el texto gris que aparece cuando está vacío
+                                -->
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" id="usuarioInput"
+                                        placeholder="Usuario (Username)">>
+                                </div>
+
+                                <!-- 
+                                    ============ CAMPOS DE CONTRASEÑA ============
+                                    Dos inputs para las contraseñas
+                                    row = fila de Bootstrap que mete dos campos uno al lado del otro
+                                    type="password" = oculta lo que escribe el usuario (muestra puntitos)
+                                -->
+                                <div class="form-group row">
+                                    <!-- Primera contraseña (izquierda) -->
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="password" class="form-control form-control-user"
+                                            id="passwordInput" placeholder="Contraseña">
+                                    </div>
+                                    <!-- Segunda contraseña para confirmar (derecha) -->
+                                    <div class="col-sm-6">
+                                        <input type="password" class="form-control form-control-user"
+                                            id="confirmPasswordInput" placeholder="Confirmar Contraseña">
+                                    </div>
+                                </div>
+
+                                <!-- 
+                                    ============ BOTÓN DE REGISTRO ============
+                                    type="button" = es un botón normal (no envía el formulario automáticamente)
+                                    class="btnRegister" = esto es lo que busca register.js con querySelector
+                                    Cuando el usuario hace clic aquí, se ejecuta register.js
+                                -->
+                                <button type="button" class="btn-registrar btn btn-primary btn-user btn-block">
+                                    Registrar
+                                </button>
+                                <hr>
+                            </form>
+                            <hr>
+
+                            <!-- 
+                                ============ ENLACE AL LOGIN ============
+                                Si el usuario ya tiene cuenta, puede ir a iniciar sesión
+                                href="iniciar-sesion.html" = lleva a la página de login
+                            -->
+                            <div class="text-center">
+                                <a class="small" href="iniciar-sesion.html">¿Ya tienes cuenta? ¡Inicia sesión!</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+
+    <!-- Script para registro de usuarios-->
+    <script src="js/register.js"></script>
+
+    <!-- Dropdown personalizado de roles -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elementos del DOM
+            const dropdownToggle = document.getElementById('dropdownToggle');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            const options = document.querySelectorAll('.dropdown-menu-custom .option');
+            const rolInput = document.getElementById('rolForm');
+
+            /**
+             * Abre o cierra el menú del dropdown
+             */
+            dropdownToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                dropdownMenu.classList.toggle('show');
+                dropdownToggle.classList.toggle('active');
+            });
+
+            /**
+             * Maneja la selección de una opción del dropdown
+             */
+            options.forEach(option => {
+                option.addEventListener('click', function() {
+                    const value = this.getAttribute('data-value');
+                    const text = this.textContent;
+                    
+                    // Actualizar el texto del botón
+                    dropdownToggle.textContent = text;
+                    
+                    // Guardar el valor en el input oculto
+                    rolInput.value = value;
+                    
+                    // Actualizar visual de la opción seleccionada
+                    options.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    
+                    // Cerrar el dropdown
+                    dropdownMenu.classList.remove('show');
+                    dropdownToggle.classList.remove('active');
+                });
+            });
+
+            /**
+             * Cierra el dropdown si se hace clic fuera de él
+             */
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('.custom-dropdown')) {
+                    dropdownMenu.classList.remove('show');
+                    dropdownToggle.classList.remove('active');
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
