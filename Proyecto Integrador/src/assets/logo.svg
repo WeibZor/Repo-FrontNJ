@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="ConciliaYa logo">
+  <defs>
+    <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fcd34d" />
+      <stop offset="50%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#ef4444" />
+    </linearGradient>
+  </defs>
+  <circle cx="60" cy="60" r="56" fill="url(#grad)" opacity="0.95" />
+  <path d="M40 65 L52 78 L80 45" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M62 32 L62 70" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" />
+  <path d="M78 46 L55 46" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" />
+</svg>
